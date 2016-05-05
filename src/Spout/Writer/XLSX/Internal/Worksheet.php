@@ -42,6 +42,9 @@ EOD;
     /** @var int Index of the last written row */
     protected $lastWrittenRowIndex = 0;
 
+    /** @var array Container to keep track of styles per column index */
+    protected $columnStyles = array();
+
     /**
      * @param \Box\Spout\Writer\Common\Sheet $externalSheet The associated "external" sheet
      * @param string $worksheetFilesFolder Temporary folder where the files to create the XLSX will be stored
@@ -113,6 +116,16 @@ EOD;
     {
         // sheet index is zero-based, while ID is 1-based
         return $this->externalSheet->getIndex() + 1;
+    }
+
+    /**
+    * @param integer $columnIndex The index of the column
+    * @param object | NULL $style Either a style object or null to clear the style for the column
+    * @return self for chaining
+    */
+    public function setColumnStyle($columnIndex, $style = NULL) {
+        $this->columnStyles[$columnIndex] = $style->id;
+        return $this;
     }
 
     /**
