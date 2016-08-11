@@ -154,7 +154,10 @@ class Sheet
     protected function isNameUnique($name)
     {
         if ($this->parentWorkbook !== NULL) {
-            return $this->parentWorkbook->isSheetNameUnique($name);
+            $unique = $this->parentWorkbook->isSheetNameUnique($name);
+            //make sure we drop the reference to the parent workbook since we don't want to leak
+            $this->parentWorkbook = NULL;
+            return $unique;
         }
 
         else {
