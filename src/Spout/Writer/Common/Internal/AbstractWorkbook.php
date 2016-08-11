@@ -84,6 +84,21 @@ abstract class AbstractWorkbook implements WorkbookInterface
     }
 
     /**
+     * Checks if the name for the external sheet is unique
+     * This method is used when the external sheet is created
+     * This makes sure that multiple writers can be active at the same time
+     */
+    public function isSheetNameUnique($name) {
+        foreach ($this->worksheets as $worksheet) {
+            $sheetName = $worksheet->getExternalSheet()->getName();
+            if ($name == $sheetName) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Sets the given sheet as the current one. New data will be written to this sheet.
      * The writing will resume where it stopped (i.e. data won't be truncated).
      *

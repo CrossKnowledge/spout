@@ -33,12 +33,16 @@ class Sheet
     /** @var \Box\Spout\Common\Helper\StringHelper */
     protected $stringHelper;
 
+    /** @var \Box\Spout\(XLSX\ODS)\Workbook */
+    protected $parentWorkbook;
+
     /**
      * @param int $sheetIndex Index of the sheet, based on order in the workbook (zero-based)
      */
-    public function __construct($sheetIndex)
+    public function __construct($sheetIndex, $parentWorkbook)
     {
         $this->index = $sheetIndex;
+        $this->parentWorkbook = $parentWorkbook;
         $this->stringHelper = new StringHelper();
         $this->setName(self::DEFAULT_SHEET_NAME_PREFIX . ($sheetIndex + 1));
     }
@@ -81,6 +85,7 @@ class Sheet
             $errorMessage .= " - It should not exceed 31 characters\n";
             $errorMessage .= " - It should not contain these characters: \\ / ? * : [ or ]\n";
             $errorMessage .= " - It should be unique";
+
             throw new InvalidSheetNameException($errorMessage);
         }
 
@@ -148,12 +153,18 @@ class Sheet
      */
     protected function isNameUnique($name)
     {
-        foreach (self::$SHEETS_NAME_USED as $sheetIndex => $sheetName) {
-            if ($sheetIndex !== $this->index && $sheetName === $name) {
-                return false;
-            }
+        if ($this->parentWorkbook !== NULL) {
+            return $this->parentWorkbook->isSheetNameUnique($name);
         }
 
-        return true;
+        else {
+            foreach (self::$SHEETS_NAME_USED as $sheetIndex => $sheetName) {
+                if ($sheetIndex !== $this->index && $sheetName === $name) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
