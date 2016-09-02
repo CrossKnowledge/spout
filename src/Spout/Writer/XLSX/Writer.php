@@ -65,7 +65,7 @@ class Writer extends AbstractMultiSheetsWriter
     }
 
     public function registerStyle($style) {
-        $this->book->registerStyle($style);
+        return $this->book->registerStyle($style);
     }
 
     /**

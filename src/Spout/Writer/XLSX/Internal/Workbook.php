@@ -59,7 +59,7 @@ class Workbook extends AbstractWorkbook
     }
 
     public function registerStyle($style) {
-        $this->styleHelper->registerStyle($style);
+        return $this->styleHelper->registerStyle($style);
     }
 
     /**
