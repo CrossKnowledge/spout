@@ -39,7 +39,7 @@ require_once '[PATH/TO]/src/Spout/Autoloader/autoload.php'; // don't forget to c
 
 ## Requirements
 
-* PHP version 5.4.0 or higher
+* PHP version 7.4 or higher
 * PHP extension `php_zip` enabled
 * PHP extension `php_xmlreader` enabled
 * PHP extension `php_simplexml` enabled
